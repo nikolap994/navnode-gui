@@ -57,9 +57,7 @@ const DeploymentPage = ({ deploymentConfig }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">
-        Deployment Configurations for <strong>{servername}</strong>
-      </h1>
+      <h1 className="text-3xl font-bold mb-4">{servername}</h1>
 
       {Object.entries(environments).map(([envKey, environment]) => (
         <div key={envKey} className="mb-8">

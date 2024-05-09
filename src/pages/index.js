@@ -2,18 +2,18 @@ import Link from "next/link";
 import path from "path";
 import fs from "fs";
 
-const DeploymentsPage = ({ serverNames }) => {
+const ProjectsPage = ({ serverNames }) => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">
-        Available Deployment Configurations
+        Available Project Configurations
       </h1>
       <ul>
         {serverNames.map((serverName) => (
           <li key={serverName}>
             <Link
               className="text-blue-600 hover:underline"
-              href={`/deployment/${encodeURIComponent(serverName)}`}
+              href={`/project/${encodeURIComponent(serverName)}`}
             >
               {serverName}
             </Link>
@@ -36,4 +36,4 @@ export async function getStaticProps() {
   };
 }
 
-export default DeploymentsPage;
+export default ProjectsPage;
