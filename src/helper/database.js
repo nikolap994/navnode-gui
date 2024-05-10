@@ -6,10 +6,7 @@ const connection = {};
 
 async function database() {
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const db = await mongoose.connect(process.env.MONGODB_URI);
 
     connection.isConnected = db.connections[0].readyState;
     if (connection.isConnected) {
