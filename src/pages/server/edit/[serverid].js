@@ -16,17 +16,17 @@ const EditServerPage = ({ data }) => {
 };
 
 export async function getServerSideProps({ params }) {
-  const { serverId } = params;
+  const { serverid } = params;
 
   try {
     const response = await fetch(
-      process.env.SITE_URI + `/api/servers?_id=${encodeURIComponent(serverId)}`
+      process.env.SITE_URI + `/api/servers?_id=${serverid}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch server data");
     }
     const responseJson = await response.json();
-    const data = responseJson.data[0];
+    const data = responseJson.data;
     return {
       props: {
         data,

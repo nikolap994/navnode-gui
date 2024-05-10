@@ -40,13 +40,13 @@ const ServersPage = ({ serverNames, serverIds }) => {
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <Link
                   className="text-blue-600 hover:underline mr-4"
-                  href={`/server/${serverIds[index]}}`}
+                  href={`/server/${serverIds[index]}`}
                 >
                   View
                 </Link>
                 <Link
                   className="text-blue-600 hover:underline mr-4"
-                  href={`/server/edit/${serverIds[index]}}`}
+                  href={`/server/edit/${serverIds[index]}`}
                 >
                   Edit
                 </Link>
