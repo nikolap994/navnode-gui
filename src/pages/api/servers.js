@@ -9,9 +9,9 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const name = req.query.name;
-        if (name) {
-          const servers = await Server.find({ name: name });
+        const _id = req.query._id;
+        if (_id) {
+          const servers = await Server.findById(_id);
           res.status(200).json({ data: servers });
         } else {
           const servers = await Server.find();
