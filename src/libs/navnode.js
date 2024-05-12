@@ -17,12 +17,17 @@ exports.deploy = async function (env, commands) {
   const outputs = [];
 
   try {
-    for (const command of commands) {
+    for (let i = 0; i < commands.length; i++) {
+      const command = commands[i];
       const sshCommand = `cd ${remotePath} && ${command}`;
       const finalCommand = `ssh ${url} "${sshCommand}"`;
+
       const output = execSync(finalCommand, { encoding: "utf-8" });
-      outputs.push(output.trim());
-      outputs.push("\n");
+      outputs.push(output);
+
+      if (i !== commands.length - 1) {
+        outputs.push("\n");
+      }
     }
 
     return outputs;
