@@ -1,92 +1,33 @@
-const path = require("path");
-const { exit } = require("process");
 const { execSync } = require("child_process");
 
 /**
- * Gets the configuration from the navnode-deployment.js file.
- * @returns {Object} The configuration object.
- */
-function getNavnodeConfig() {
-  try {
-    return require(path.resolve("./navnode-deployment.js"));
-  } catch (err) {
-    handleError(err);
-  }
-}
-
-/**
- * Gets the configuration for a specific environment.
- * @param {string} env - The name of the environment.
- * @returns {Object} The environment configuration object.
- */
-function getConfig(env) {
-  try {
-    return getNavnodeConfig().environments[env];
-  } catch (err) {
-    handleError(err);
-  }
-}
-
-/**
- * Gets the task associated with a specific name.
- * @param {string} task - The name of the task.
- * @returns {string} The task command.
- */
-function getTask(task) {
-  try {
-    return getNavnodeConfig().tasks[task].task;
-  } catch (err) {
-    handleError(err);
-  }
-}
-
-/**
- * Handles errors by logging and exiting the process.
- * @param {Error} err - The error object.
- */
-function handleError(err) {
-  console.log(err);
-  exit();
-}
-
-/**
  * Executes SSH commands on a remote server for deployment.
- * @param {string} env - The name of the environment to deploy to.
- * @param {string} task - The name of the task to execute during deployment.
+ * @param {object} env - The environment object containing user, server, and path.
+ * @param {string[]} commands - Array of commands to execute remotely.
+ * @returns {string[]} Array of outputs from each executed command.
  */
-exports.deploy = function (env, task) {
+exports.deploy = async function (env, commands) {
   if (!env) {
     console.log("Missing environment");
-    return;
+    return [];
   }
 
+  const { user, server, path: remotePath } = env;
+  const url = `${user}@${server}`;
+  const outputs = [];
+
   try {
-    const environmentConfig = getConfig(env);
-    const { user, server, path: remotePath } = environmentConfig;
-    const url = `${user}@${server}`;
-
-    const commands = getTask(task);
-
-    commands.forEach((command) => {
-      if (command.includes("--navnode_extend")) {
-        try {
-          command = command.replace("--navnode_extend", "").trim();
-          const config = getNavnodeConfig();
-          config.extend[command]();
-        } catch (err) {
-          handleError(err);
-        }
-        return;
-      }
-
+    for (const command of commands) {
       const sshCommand = `cd ${remotePath} && ${command}`;
       const finalCommand = `ssh ${url} "${sshCommand}"`;
-      const response = execSync(finalCommand).toString();
+      const output = execSync(finalCommand, { encoding: "utf-8" });
+      outputs.push(output.trim());
+      outputs.push("\n");
+    }
 
-      console.log("----------------------------------");
-      console.log(response);
-    });
+    return outputs;
   } catch (err) {
-    handleError(err);
+    console.error("Error executing SSH commands:", err);
+    return outputs;
   }
 };
