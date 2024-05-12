@@ -8,6 +8,7 @@ const DeploymentPage = ({ data }) => {
   const [terminalOutput, setTerminalOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEnvironment, setSelectedEnvironment] = useState(null);
+  const [selectedEnvironmentId, setSelectedEnvironmentId] = useState(null);
 
   const handleToggleCodeBlock = (taskKey) => {
     setTaskVisibility((prevVisibility) => ({
@@ -79,7 +80,10 @@ const DeploymentPage = ({ data }) => {
                 name="environments"
                 value={environment.name}
                 checked={selectedEnvironment === environment.name}
-                onChange={() => handleEnvironmentChange(environment.name)}
+                onChange={() => {
+                  handleEnvironmentChange(environment.name);
+                  setSelectedEnvironmentId(environment._id);
+                }}
               />
               <label htmlFor={envKey} className="ml-2">
                 {environment.name}
@@ -108,7 +112,7 @@ const DeploymentPage = ({ data }) => {
                   <button
                     className="px-3 py-1 bg-blue-500 text-white rounded"
                     onClick={() =>
-                      handleTaskAction(selectedEnvironment, taskInfo.name)
+                      handleTaskAction(selectedEnvironmentId, taskInfo._id)
                     }
                     disabled={isLoading}
                   >
@@ -134,7 +138,7 @@ const DeploymentPage = ({ data }) => {
 
       {showTerminal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75">
-          <div className="bg-gray-900 w-96 p-4 rounded-md">
+          <div className="bg-gray-900 w-120 p-6 rounded-lg">
             {isLoading ? (
               <p className="text-white">Executing...</p>
             ) : (
@@ -157,7 +161,6 @@ const DeploymentPage = ({ data }) => {
 };
 
 export async function getServerSideProps({ params }) {
-  console.log(params);
   const { serverid } = params;
 
   try {
