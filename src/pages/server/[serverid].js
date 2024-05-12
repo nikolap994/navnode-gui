@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import {
+  IoIosInformationCircleOutline,
+  IoMdCloseCircleOutline,
+} from "react-icons/io";
 import Link from "next/link";
 
 const DeploymentPage = ({ data }) => {
@@ -9,6 +12,7 @@ const DeploymentPage = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEnvironment, setSelectedEnvironment] = useState(null);
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState(null);
+  const [environmentInfoVisible, setEnvironmentInfoVisible] = useState(false); // New state
 
   const handleToggleCodeBlock = (taskKey) => {
     setTaskVisibility((prevVisibility) => ({
@@ -57,6 +61,10 @@ const DeploymentPage = ({ data }) => {
     setSelectedEnvironment(envName);
   };
 
+  const toggleEnvironmentInfo = () => {
+    setEnvironmentInfoVisible(!environmentInfoVisible);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <div className="ml-0 flex justify-between items-center">
@@ -74,20 +82,41 @@ const DeploymentPage = ({ data }) => {
         <div className="mt-2">
           {Object.entries(environments).map(([envKey, environment]) => (
             <div key={envKey} className="mb-2">
-              <input
-                type="radio"
-                id={envKey}
-                name="environments"
-                value={environment.name}
-                checked={selectedEnvironment === environment.name}
-                onChange={() => {
-                  handleEnvironmentChange(environment.name);
-                  setSelectedEnvironmentId(environment._id);
-                }}
-              />
-              <label htmlFor={envKey} className="ml-2">
-                {environment.name}
-              </label>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id={envKey}
+                  name="environments"
+                  value={environment.name}
+                  checked={selectedEnvironment === environment.name}
+                  onChange={() => {
+                    handleEnvironmentChange(environment.name);
+                    setSelectedEnvironmentId(environment._id);
+                  }}
+                />
+                <label htmlFor={envKey} className="ml-2">
+                  {environment.name}
+                </label>
+                <IoIosInformationCircleOutline
+                  className="ml-2 cursor-pointer text-blue-500"
+                  onClick={toggleEnvironmentInfo}
+                />
+              </div>
+              {environmentInfoVisible && (
+                <div className="mt-2">
+                  <ul>
+                    <li>
+                      <strong>Path:</strong> {environment.path}
+                    </li>
+                    <li>
+                      <strong>Server:</strong> {environment.server}
+                    </li>
+                    <li>
+                      <strong>User:</strong> {environment.user}
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -137,23 +166,19 @@ const DeploymentPage = ({ data }) => {
       )}
 
       {showTerminal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75">
-          <div className="bg-gray-900 w-120 p-6 rounded-lg">
-            {isLoading ? (
-              <p className="text-white">Executing...</p>
-            ) : (
-              <pre className="text-white whitespace-pre-wrap">
-                {terminalOutput}
-              </pre>
-            )}
-            <button
-              className="mt-4 px-3 py-1 bg-blue-500 text-white rounded"
-              onClick={closeTerminal}
-              disabled={isLoading}
-            >
-              Close
-            </button>
-          </div>
+        <div className="fixed bottom-0 inset-x-0 z-50 bg-gray-900 p-6">
+          {isLoading ? (
+            <p className="text-white">Executing...</p>
+          ) : (
+            <pre className="text-white whitespace-pre-wrap h-64 overflow-y-auto">
+              {terminalOutput}
+            </pre>
+          )}
+          <IoMdCloseCircleOutline
+            className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-red-500 rounded-full text-white"
+            onClick={closeTerminal}
+            disabled={isLoading}
+          ></IoMdCloseCircleOutline>
         </div>
       )}
     </div>
