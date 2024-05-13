@@ -17,9 +17,6 @@ const Navbar = () => {
         <Link className="text-white text-xl font-semibold" href="/">
           Home
         </Link>
-        <Link className="text-white text-xl font-semibold" href="/server/">
-          Servers
-        </Link>
       </div>
     </nav>
   );
