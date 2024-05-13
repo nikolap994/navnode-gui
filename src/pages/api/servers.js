@@ -31,8 +31,8 @@ export default async function handler(req, res) {
       break;
     case "PUT":
       try {
-        const update = req.body.update;
-        const serverId = req.body.id;
+        const update = req.body;
+        const serverId = req.query._id;
 
         await Server.findOneAndUpdate({ _id: serverId }, update);
 
