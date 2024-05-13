@@ -1,8 +1,32 @@
 import Link from "next/link";
+import Router from "next/router";
 
-const ServersPage = ({ serverNames, serverIds }) => {
+const ServersPage = ({ serverNames, serverIds, SITE_URI }) => {
   const handleDelete = (serverName, serverId) => {
-    console.log(`Delete ${serverName}, ${serverId}`);
+    if (confirm(`Do you want to delete ${serverName} ?`) == true) {
+      const raw = JSON.stringify({
+        id: serverId,
+      });
+      const myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+
+      const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(SITE_URI + "/api/servers", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.data === "deleted") {
+            Router.push("/server");
+          }
+        })
+        .catch((error) => console.log("error", error));
+    }
   };
 
   return (
@@ -83,6 +107,7 @@ export async function getStaticProps() {
       props: {
         serverNames,
         serverIds,
+        SITE_URI: process.env.SITE_URI,
       },
     };
   } catch (error) {
