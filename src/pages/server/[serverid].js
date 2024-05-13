@@ -72,7 +72,7 @@ const DeploymentPage = ({ data }) => {
           Deployment Configurations for <strong>{name}</strong>
         </h1>
         <div className="text-xl font-semibold">
-          <Link href="/server/" className="text-blue-600 hover:underline">
+          <Link href="/" className="text-blue-600 hover:underline">
             Back
           </Link>
         </div>

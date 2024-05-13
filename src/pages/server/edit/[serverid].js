@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-
+import Link from "next/link";
 const EditServerPage = ({ data }) => {
   const [serverName, setServerName] = useState(data.name);
   const [environments, setEnvironments] = useState(data.environments);
@@ -77,7 +77,14 @@ const EditServerPage = ({ data }) => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Edit Server: {data.name}</h1>
+      <div className="ml-0 flex justify-between items-center">
+        <h1 className="text-2xl font-bold mb-4">Edit Server: {data.name}</h1>
+        <div className="text-xl font-semibold">
+          <Link href="/" className="text-blue-600 hover:underline">
+            Back
+          </Link>
+        </div>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="mb-4">
           <label className="block text-sm font-bold">Server Name:</label>
