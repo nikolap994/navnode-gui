@@ -15,7 +15,7 @@ export default async function handler(req, res) {
           const webhooks = await Webhook.findById(_id);
           res.status(200).json({ data: webhooks });
         } else if (_serverId) {
-          const webhooks = await Webhook.find("server_id", _serverId);
+          const webhooks = await Webhook.find({ server_id: _serverId });
           res.status(200).json({ data: webhooks });
         }
       } catch (error) {
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       break;
     case "DELETE":
       try {
-        const webhookId = req.body.id;
+        const webhookId = req.query._id;
         await Webhook.findOneAndDelete({ _id: webhookId });
         res.status(200).json({ data: "deleted" });
         return;
