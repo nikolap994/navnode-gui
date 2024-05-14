@@ -31,8 +31,8 @@ const WebhookTable = ({ webhooks, server, SITE_URI, onDelete }) => (
               </td>
               <td className="py-2 px-4 border-b text-center hover:underline">
                 <Link
-                  href={`${SITE_URI}webhookAction?_id=${webhook._id}`}
-                >{`${SITE_URI}webhookAction?_id=${webhook._id}`}</Link>
+                  href={`${SITE_URI}/api/webhookAction?_id=${webhook._id}`}
+                >{`${SITE_URI}/api/webhookAction?_id=${webhook._id}`}</Link>
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <button
