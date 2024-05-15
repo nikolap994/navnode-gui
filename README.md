@@ -75,20 +75,7 @@ npm run list-processes
 
 ## Custom Hooks in Navnode GUI
 
-Custom hooks allow you to execute specific actions before and after running remote commands in your Navnode GUI project. These hooks are defined in `src/hooks/customHook.js`.
-
-In the **Navnode GUI** application, the `beforeDeployHook` and `afterDeployHook` are custom hooks designed to execute specific actions before and after deployment tasks, respectively. These hooks provide a flexible way to intervene in the deployment process, allowing users to customize server-side actions based on their specific needs.
-
-The `beforeDeployHook` is triggered before a deployment action occurs. This hook can be modified to perform any pre-deployment tasks, such as environment validation, setup checks, or custom preparations needed for the deployment process. Users have the flexibility to define and incorporate their own logic within this hook to ensure that deployments proceed smoothly and efficiently.
-
-Conversely, the `afterDeployHook` is called after a deployment action completes. This hook enables users to execute post-deployment tasks, such as logging deployment results, sending notifications, or performing additional actions based on the outcome of the deployment. Users can tailor this hook to implement specific follow-up procedures that enhance the management and monitoring of deployment activities within the **Navnode GUI** environment.
-
-By leveraging these hooks, developers can extend the functionality of the **Navnode GUI** application, introducing custom behaviors that align with project requirements and operational workflows. This modular approach empowers users to exert fine-grained control over deployment processes and seamlessly integrate server-side actions tailored to their unique use cases and preferences.
-
-
-### Directory Structure
-
-The Navnode GUI project should have a dedicated src/hooks directory where you define and organize different types of hooks. Each hook file can contain specific logic tailored to its purpose.
+Custom hooks allow you to execute specific actions before and after running remote commands in your Navnode GUI project. These hooks are defined in `src/hooks`.
 
 ```css
 navnode-gui/
@@ -100,10 +87,14 @@ navnode-gui/
 │   └── ...
 └── ...
 ```
-### Extending with Additional Hooks
-You can extend this pattern by creating more hook files (cronjobHook.js, webhookHook.js, etc.) within the src/hooks directory and defining custom hooks tailored to specific use cases. The hooks.js module provides a centralized mechanism to manage and execute hooks dynamically based on different events in your Navnode GUI application.
 
-This modular approach allows you to maintain clear separation of concerns, improve code organization, and apply custom logic to various events through dynamic hook registration and execution.
+In the **Navnode GUI** application, the `beforeDeployHook` and `afterDeployHook` are custom hooks designed to execute specific actions before and after deployment tasks, respectively. These hooks provide a flexible way to intervene in the deployment process, allowing users to customize server-side actions based on their specific needs.
+
+The `beforeDeployHook` is triggered before a deployment action occurs. This hook can be modified to perform any pre-deployment tasks, such as environment validation, setup checks, or custom preparations needed for the deployment process. Users have the flexibility to define and incorporate their own logic within this hook to ensure that deployments proceed smoothly and efficiently.
+
+Conversely, the `afterDeployHook` is called after a deployment action completes. This hook enables users to execute post-deployment tasks, such as logging deployment results, sending notifications, or performing additional actions based on the outcome of the deployment. Users can tailor this hook to implement specific follow-up procedures that enhance the management and monitoring of deployment activities within the **Navnode GUI** environment.
+
+By leveraging these hooks, developers can extend the functionality of the **Navnode GUI** application, introducing custom behaviors that align with project requirements and operational workflows. This modular approach empowers users to exert fine-grained control over deployment processes and seamlessly integrate server-side actions tailored to their unique use cases and preferences.
 
 ### Tech Stack
 
