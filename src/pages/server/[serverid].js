@@ -12,7 +12,7 @@ const DeploymentPage = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEnvironment, setSelectedEnvironment] = useState(null);
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState(null);
-  const [environmentInfoVisible, setEnvironmentInfoVisible] = useState(false); // New state
+  const [environmentInfoVisible, setEnvironmentInfoVisible] = useState(false);
 
   const handleToggleCodeBlock = (taskKey) => {
     setTaskVisibility((prevVisibility) => ({

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const CronjobTable = ({ cronjobs, server, SITE_URI, onDelete }) => (
+const CronjobTable = ({ cronjobs, server, onDelete }) => (
   <div className="overflow-x-auto">
     <table className="min-w-full bg-white border border-gray-300">
       <thead className="bg-gray-200">
@@ -9,7 +9,6 @@ const CronjobTable = ({ cronjobs, server, SITE_URI, onDelete }) => (
           <th className="py-2 px-4 border-b text-center">Environment</th>
           <th className="py-2 px-4 border-b text-center">Task</th>
           <th className="py-2 px-4 border-b text-center">URI</th>
-          <th className="py-2 px-4 border-b text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -30,11 +29,6 @@ const CronjobTable = ({ cronjobs, server, SITE_URI, onDelete }) => (
               </td>
               <td className="py-2 px-4 border-b text-center">
                 {task?.name || "N/A"}
-              </td>
-              <td className="py-2 px-4 border-b text-center hover:underline">
-                <Link
-                  href={`${SITE_URI}/api/cronjobAction?_id=${cronjob._id}`}
-                >{`${SITE_URI}/api/cronjobAction?_id=${cronjob._id}`}</Link>
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <button

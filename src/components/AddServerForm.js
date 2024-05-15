@@ -76,15 +76,12 @@ const AddServerForm = () => {
           return response.json();
         })
         .then((data) => {
-          // Handle successful response
-          console.log(data);
+          window.location = "/";
         })
         .catch((error) => {
-          // Handle error
           console.error("Error:", error);
         });
 
-      // Clear form inputs after successful submission
       setServerName("");
       setEnvironments([]);
       setNewEnvironment({ name: "", user: "", server: "", path: "" });

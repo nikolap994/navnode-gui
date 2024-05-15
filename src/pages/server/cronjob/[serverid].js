@@ -40,7 +40,6 @@ const CronjobListPage = ({ server, cronjobs, SITE_URI }) => {
       <CronjobTable
         cronjobs={cronjobList}
         server={server}
-        SITE_URI={SITE_URI}
         onDelete={handleDelete}
       />
       <div className="mt-8">
