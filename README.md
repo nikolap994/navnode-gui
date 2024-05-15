@@ -107,7 +107,7 @@ When running a remote command manually from the server, you can integrate these 
 
 ```javascript
 import { executeHooks } from "@/libs/hooks";
-import { deploy } from "@/libs/deploy"; // Assuming this is your deploy function
+import { deploy } from "@/libs/deploy";
 
 // Execute "beforeDeploy" hook
 await executeHooks("beforeDeploy", foundEnvironment, foundTask);
