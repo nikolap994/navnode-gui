@@ -1,6 +1,6 @@
 # Navnode GUI
 
-Navnode GUI is a project designed to facilitate running commands on remote servers via webhooks and managing cronjobs. This README.md will guide you through setting up and understanding the project.
+Navnode GUI is a project designed to facilitate running commands on remote servers via webhooks and managing cronjobs.
 
 ## Project Overview
 
