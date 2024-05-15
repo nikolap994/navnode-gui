@@ -1,6 +1,9 @@
 import Webhook from "@/models/Webhook";
 import Server from "@/models/Server";
 import { deploy } from "@/libs/navnode";
+import { executeHooks } from "@/libs/hooks";
+
+import "@/hooks/webhookHook";
 
 export default async function handler(req, res) {
   if (req.method !== "POST" && req.method !== "GET") {
@@ -37,7 +40,11 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: "Task not found" });
     }
 
+    await executeHooks("beforeDeploy", environment, task);
+
     const deployResponse = await deploy(environment, task.commands);
+
+    await executeHooks("afterDeploy", environment, task, deployResponse);
 
     try {
       res.status(200).json({

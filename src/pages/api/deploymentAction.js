@@ -2,7 +2,7 @@ import { deploy } from "@/libs/navnode";
 import Server from "@/models/Server";
 import { executeHooks } from "@/libs/hooks";
 
-import "@/hooks/customHook";
+import "@/hooks/deploymentHook";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

@@ -3,35 +3,28 @@ const database = require("../helper/database");
 const Cronjob = require("../models/Cronjob");
 const Server = require("../models/Server");
 const deploy = require("./navnodeServer");
+const { registerHook, executeHooks } = require("../libs/hooksServer");
 
 const activeCronJobs = {};
+
+require("../hooks/cronjobHook");
 
 async function getJobDetails(taskId, environmentId, serverId) {
   try {
     const server = await Server.findById(serverId);
     if (!server) {
-      return res.status(404).json({ error: "Server not found" });
+      throw new Error(`Server with ID ${serverId} not found.`);
     }
 
-    const serversWithEnvironment = await Server.find({
-      "environments._id": environmentId,
-    });
-
-    serversWithEnvironment.forEach((server) => {
-      environment = server.environments.find(
-        (env) => env._id.toString() === environmentId
-      );
-    });
-
-    const serversWithTask = await Server.find({ "tasks._id": taskId });
-
-    serversWithTask.forEach((server) => {
-      task = server.tasks.find((task) => task._id.toString() === taskId);
-    });
+    const environment = server.environments.find(
+      (env) => env._id.toString() === environmentId
+    );
 
     if (!environment) {
       throw new Error(`Environment with ID ${environmentId} not found.`);
     }
+
+    const task = server.tasks.find((task) => task._id.toString() === taskId);
 
     if (!task) {
       throw new Error(
@@ -78,10 +71,24 @@ async function scheduleJobs() {
           );
 
           try {
+            await executeHooks(
+              "beforeDeploy",
+              jobDetails.environment,
+              jobDetails.task
+            );
+
             const deployResponse = await deploy(
               jobDetails.environment,
-              jobDetails.task.commands
+              jobDetails.commands
             );
+
+            await executeHooks(
+              "afterDeploy",
+              jobDetails.environment,
+              jobDetails.task,
+              deployResponse
+            );
+
             console.log(deployResponse);
           } catch (error) {
             console.error("Error deploying:", error);
@@ -102,9 +109,22 @@ async function scheduleJobs() {
             );
 
             try {
+              await executeHooks(
+                "beforeDeploy",
+                jobDetails.environment,
+                jobDetails.task
+              );
+
               const deployResponse = await deploy(
                 jobDetails.environment,
-                jobDetails.task.commands
+                jobDetails.commands
+              );
+
+              await executeHooks(
+                "afterDeploy",
+                jobDetails.environment,
+                jobDetails.task,
+                deployResponse
               );
 
               console.log(deployResponse);
