@@ -80,6 +80,12 @@ const ServersPage = ({ serverNames, serverIds, SITE_URI }) => {
                 >
                   Webhook
                 </Link>
+                <Link
+                  className="text-blue-600 hover:underline mr-4"
+                  href={`/server/cronjob/${serverIds[index]}`}
+                >
+                  Cronjob
+                </Link>
                 <button
                   className="text-red-600 hover:underline"
                   onClick={() => handleDelete(serverName, serverIds[index])}
