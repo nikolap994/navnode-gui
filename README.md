@@ -73,7 +73,7 @@ npm run logs-cron-job
 npm run list-processes
 ```
 
-# Custom Hooks for Remote Commands
+## Custom Hooks in Navnode GUI
 
 Custom hooks allow you to execute specific actions before and after running remote commands in your Navnode GUI project. These hooks are defined in `src/hooks/customHook.js`.
 
@@ -85,10 +85,6 @@ Conversely, the `afterDeployHook` is called after a deployment action completes.
 
 By leveraging these hooks, developers can extend the functionality of the **Navnode GUI** application, introducing custom behaviors that align with project requirements and operational workflows. This modular approach empowers users to exert fine-grained control over deployment processes and seamlessly integrate server-side actions tailored to their unique use cases and preferences.
 
-
-## Custom Hooks in Navnode GUI
-
-Custom hooks in the Navnode GUI application are used to execute specific logic before or after certain events, such as deployment actions, cronjob executions, or webhook processing. By centralizing hook definitions and making them dynamic, you can apply custom behavior to various scenarios in your Navnode GUI application.
 
 ### Directory Structure
 
