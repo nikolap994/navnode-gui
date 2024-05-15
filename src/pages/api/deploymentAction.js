@@ -1,5 +1,8 @@
 import { deploy } from "@/libs/navnode";
 import Server from "@/models/Server";
+import { executeHooks } from "@/libs/hooks";
+
+import "@/hooks/customHook";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -27,7 +30,16 @@ export default async function handler(req, res) {
     foundTask = server.tasks.find((task) => task._id.toString() === action);
   });
 
+  await executeHooks("beforeDeploy", foundEnvironment, foundTask);
+
   const deployResponse = await deploy(foundEnvironment, foundTask.commands);
+
+  await executeHooks(
+    "afterDeploy",
+    foundEnvironment,
+    foundTask,
+    deployResponse
+  );
 
   try {
     res.status(200).json({
