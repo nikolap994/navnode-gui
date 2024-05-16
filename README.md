@@ -34,12 +34,16 @@ Create a `.env` file in the root directory of the project with the following con
 ```bash
 MONGODB_URI="mongodb+srv://<username>:<password>@<hostname>/<database>"
 SITE_URI="http://localhost:3000"
+NEXTAUTH_JWT_SECRET="sercret"
+NEXTAUTH_SECRET="secret"
 ```
 
 - Replace `MONGODB_URI` with your MongoDB connection string.
 - Replace `SITE_URI` with the URL of your deployed site or development server.
+- Replace `NEXTAUTH_JWT_SECRET` with secret for example `b4ed764b60a9a9be8452f06ca06519f9`
+- Replace `NEXTAUTH_SECRET` with secret for example `b4ed764b60a9a9be8452f06ca06519f9`
 
-4. **Start the Development Server**
+1. **Start the Development Server**
 Run the following command to start the development server:
 ```bash
 npm run dev
@@ -72,6 +76,38 @@ npm run logs-cron-job
 ```bash
 npm run list-processes
 ```
+# User Authentication Flow
+
+## Initial Setup
+
+To begin using Navnode GUI, follow these steps to set up your account:
+
+1. **Register**: If there are no existing users in the database, visit the registration page.
+   - Provide your email address and choose a password.
+   - Submit the registration form to create your account.
+  
+2. **Login**: Once registered, log in using your email and password to access the dashboard.
+
+## User Management
+
+After logging in, you can manage users as follows:
+
+1. **Add New User**:
+   - Navigate to the user management section in the dashboard.
+   - Select the option to add a new user.
+   - Enter the new user's email address and assign a password.
+   - Submit the form to create the new user account.
+
+2. **User Access**:
+   - All users have equal access to the available resources within the application.
+   - Ensure new users log in using their registered email and password to access the dashboard.
+
+## Authentication Details
+
+- **Authentication Method**: Navnode GUI uses basic email and password authentication.
+- **First User Registration**: The first user to register becomes the initial administrator.
+- **Subsequent User Management**: Admin users can add, modify, or remove users from the dashboard.
+
 
 # Custom Hooks for Remote Commands
 
