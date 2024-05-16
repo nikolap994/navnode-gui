@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import WebhookForm from "@/components/WebhookForm";
 import WebhookTable from "@/components/WebhookTable";
+import { getSession } from "next-auth/react";
 
 const WebhookListPage = ({ server, webhooks, SITE_URI }) => {
   const [webhookList, setWebhookList] = useState(webhooks);
@@ -50,7 +51,19 @@ const WebhookListPage = ({ server, webhooks, SITE_URI }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { params } = context;
   const { serverid } = params;
 
   try {
