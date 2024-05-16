@@ -4,6 +4,7 @@ import {
   IoMdCloseCircleOutline,
 } from "react-icons/io";
 import Link from "next/link";
+import { getSession } from "next-auth/react";
 
 const DeploymentPage = ({ data }) => {
   const [taskVisibility, setTaskVisibility] = useState({});
@@ -185,7 +186,19 @@ const DeploymentPage = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { params } = context;
   const { serverid } = params;
 
   try {
