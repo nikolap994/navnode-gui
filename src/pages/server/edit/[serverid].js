@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { getSession } from "next-auth/react";
+
 const EditServerPage = ({ data }) => {
   const [serverName, setServerName] = useState(data.name);
   const [environments, setEnvironments] = useState(data.environments);
@@ -196,7 +198,19 @@ const EditServerPage = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { params } = context;
   const { serverid } = params;
 
   try {
