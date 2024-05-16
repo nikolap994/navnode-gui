@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import CronjobForm from "@/components/CronjobForm";
 import CronjobTable from "@/components/CronjobTable";
+import { getSession } from "next-auth/react";
 
 const CronjobListPage = ({ server, cronjobs, SITE_URI }) => {
   const [cronjobList, setCronjobList] = useState(cronjobs);
@@ -49,7 +50,19 @@ const CronjobListPage = ({ server, cronjobs, SITE_URI }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { params } = context;
   const { serverid } = params;
 
   try {
