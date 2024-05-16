@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Router from "next/router";
+import { getSession } from "next-auth/react";
 
 const ServersPage = ({ serverNames, serverIds, SITE_URI }) => {
   const handleDelete = (serverName, serverId) => {
@@ -101,7 +102,18 @@ const ServersPage = ({ serverNames, serverIds, SITE_URI }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
   try {
     const response = await fetch(process.env.SITE_URI + "/api/servers");
 
